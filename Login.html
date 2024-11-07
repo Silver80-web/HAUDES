@@ -1,0 +1,55 @@
+<html>
+<head>
+    <Title>HAUDES</Title>
+    <link rel="icon" href="Logo.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="interfaz-login.css">
+    </head>
+<body>
+    <center>
+        <h1>Herramienta Auxiliar de Dirección Escolar</h1>
+        <table cellpadding="5" cellspacing="16" border="4" bgcolor="lightgray" class="BordeTabla">
+            <tr>
+                <td>
+                    <center>
+                    <form>
+                    <label class="login">
+                        <br>
+                        <label for="emailAddress" class="login">Tu dirección de correo electrónico</label><br><br>
+                        
+                        <label class="login">
+                            <input
+                              id="emailAddress"
+                              type="email"
+                              size="64"
+                              maxlength="64"
+                              required
+                              placeholder="correo@gmail.com"
+                              title="Proporcione una direccion de correo electronico" />
+                            <br>
+                        </label>
+                        
+                        <center>________________________________________________________________</center>
+                        <br>
+                        
+                        <p>Escribe aquí tu contraseña</p>
+                        <input type="password" name="contraseña" title="tu contraseña" method="get" placeholder="****" size="64" maxlength="64" required>
+                        <center>________________________________________________________________</center>
+                        <br>
+                            <input type="submit" value="siguiente" onclick="location.href='HAUDES.html'" class="envio">
+                        <br>
+                        <div>
+                        </div>
+                    </label>
+                    </form>
+                    </center>
+                </td>
+                <td>
+                    <p class="login2">Bienvenido al HAUDES</p>
+                    <center>_________________________________________</center>
+                    <p class="login3">Por favor, inserta tu correo y contraseña</p>
+                </td>
+            </tr>
+        </table>
+    </center>
+</body>
+</html>
