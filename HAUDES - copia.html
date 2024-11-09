@@ -73,8 +73,17 @@
 </body>
 </html>
 
-<script>
-    
+<script>   
+    $(function(){
+      $.fn.select2.amd.require(["optgroup-data", "optgroup-results"],
+          function (OptgroupData, OptgroupResults) {
+          $('#lista').select2({
+              dataAdapter: OptgroupData,
+              resultsAdapter: OptgroupResults,
+              allowClear: true
+          });
+      });
+  });
 </script>
 
 <script type="module">
@@ -84,8 +93,9 @@ import { getAllEmails, getInfo } from "./js/requests.js";
         // Espera a que se carguen los correos electrónicos y la información de estudiantes
         const emails = await getAllEmails();
         const info = await getInfo();
-        populateEmailOptions(emails, info[2], info[1]);
 
+        populateEmailOptions(emails, info[2], info[1]);
+        
         function populateEmailOptions(emails, fullNames, classes) {
             // Agrupar los estudiantes por clase
             const groupedByClass = groupByClass(emails, fullNames, classes);

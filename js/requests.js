@@ -48,6 +48,7 @@ export const getInfo = async () => {
                 field.map(object => orderedField.push(object));
             }         
                
+
             return orderedField;   
         };
 
@@ -65,7 +66,6 @@ export const getInfo = async () => {
                 orderedFields.push(orderedField);
             }
         })
-
         return orderedFields;   
     };
 
