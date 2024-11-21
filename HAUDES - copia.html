@@ -10,8 +10,8 @@
     <script src="./select2-optgroup-select-master/example/vendor/select2.js"></script>
     <script src="./select2-optgroup-select-master/dist/select2.optgroupSelect.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="/select2-optgroup-select-master/example/vendor/select2.css">
-    <link rel="stylesheet" type="text/css" href="/select2-optgroup-select-master/dist/select2.optgroupSelect.css">
+    <link rel="stylesheet" type="text/css" href="./select2-optgroup-select-master/example/vendor/select2.css">
+    <link rel="stylesheet" type="text/css" href="./select2-optgroup-select-master/dist/select2.optgroupSelect.css">
 
 </head>
 
@@ -25,7 +25,7 @@
         <table cellpadding="5" cellspacing="16" border="5" bgcolor="lightgray" class="BordeTabla">
             <tr>
                 <td>
-                    <form>
+                    <form id="emailForm">
                         <label for="lista">Tu dirección de correo electrónico</label><br />
                         
                         <label>
@@ -37,6 +37,7 @@
                                     multiple="multiple"
                                     style="width:95%"
                                     title="Seleccione una o varias direcciones de correo"
+                                    placeholder="seleccione una o varias direcciones de correo"
                                     required
                                     allowClear="True"
                                     >
@@ -48,7 +49,7 @@
                             
                             <section id="multi-selector-uniq">
                             <img src="clip.png" width="22px" height="22px">
-                            <input id="files" type="file" value="adjuntar archivo" multiple>
+                            <input id="files" name="attachments" type="file" value="adjuntar archivo" multiple>
                             <br>
                             <ul id="preview"></ul>
                             </section>
@@ -59,6 +60,7 @@
                         <label for="message">Solicitud</label><br />
                         <textarea
                           id="message"
+                          name="emailBody"
                           cols="113"
                           rows="8"
                           required
@@ -73,20 +75,28 @@
 </body>
 </html>
 
-<script>   
-    $(function(){
-      $.fn.select2.amd.require(["optgroup-data", "optgroup-results"],
-          function (OptgroupData, OptgroupResults) {
-          $('#lista').select2({
-              dataAdapter: OptgroupData,
-              resultsAdapter: OptgroupResults,
-              allowClear: true
-          });
-      });
-  });
-</script>
+
 
 <script type="module">
+    document.getElementById('emailForm').addEventListener('submit', async (event) => {
+    event.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("http://localhost:5000/send-email", {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+      alert(result.message);
+    } catch (error) {
+      console.error('Error al enviar el correo:', error);
+      alert('Hubo un error al enviar el correo.');
+    }
+  });
 
 import { getAllEmails, getInfo } from "./js/requests.js";
 
@@ -175,47 +185,7 @@ import { getAllEmails, getInfo } from "./js/requests.js";
       });
   });    
 
-/* import { getAllEmails, getInfo } from "./js/requests.js";
 
-        // Espera a que se carguen los correos electrónicos y la información de estudiantes
-        const emails = await getAllEmails();
-        const info = await getInfo();
-        populateEmailOptions(emails, info.fullNames, info.classes);
-
-        function populateEmailOptions(emails, fullNames) {
-            // Combina cada correo con su nombre completo correspondiente
-            const opciones = emails.map((email, index) => ({
-                id: email,             // ID es el correo
-                text: email,           // Texto visible principal es el correo
-                fullname: fullNames[index], // Añade el nombre completo como propiedad personalizada
-            }));
-
-            // Inicializa Select2 con función de búsqueda personalizada
-            $('#lista').select2({
-                placeholder: "Buscar por nombre completo...",
-                allowClear: true,
-                data: opciones,
-                matcher: matchCustom // Usa la función personalizada `matchCustom`
-            });
-        }
-
-        // Función personalizada para coincidencias de búsqueda
-        function matchCustom(params, data) {
-            // Si no hay términos de búsqueda, devuelve el elemento completo
-            if ($.trim(params.term) === '') {
-                return data;
-            }
-
-            // Si el nombre completo contiene el término de búsqueda, devuelve los datos
-            if (data.fullname && data.fullname.toLowerCase().indexOf(params.term.toLowerCase()) > -1) {
-                return data;
-            }
-
-            // Retorna null si no coincide
-            return null;
-        }
-
- */
 
 let filesList = [];
 const classDragOver = "drag-over";
