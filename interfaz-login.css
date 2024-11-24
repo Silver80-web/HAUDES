@@ -70,11 +70,14 @@ form{
     padding: 10px 20px; 
     cursor: pointer; 
     border-radius: 20px;
-    background-image: linear-gradient(to right, darkgray, lightgray, darkgray);
+    background-image: linear-gradient(to right, gray, lightgray, gray);
+    border-style: ridge;
+    border-color: linear-gradient(to right, darkgray, black, darkgray);
 }
 
 .envio:hover{
-    background-image: linear-gradient(to right, gray, lightgray, gray);
+    background-image: linear-gradient(to right, darkgray, lightgray, darkgray);
+    border-color: black;
 }
 
 .BordeTabla{

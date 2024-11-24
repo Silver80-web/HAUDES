@@ -32,10 +32,8 @@
                             
                             <select
                                     id="lista"
-                                    name="lista"
-                                     
+                                    name="lista" 
                                     multiple="multiple"
-                                    style="width:95%"
                                     title="Seleccione una o varias direcciones de correo"
                                     placeholder="seleccione una o varias direcciones de correo"
                                     required
@@ -46,6 +44,10 @@
                             
                             <img src="Lupa.png" width="20px" height="20px">
                             <br>
+
+                            <button id="reset-select" type="button">Resetear</button>
+
+                            <br><br>
                             
                             <section id="multi-selector-uniq">
                             <img src="clip.png" width="22px" height="22px">
@@ -66,7 +68,7 @@
                           required
                           placeholder="..."></textarea>
                         <br>
-                      <input type="submit" value="Enviar correo/s"/>
+                      <input type="submit" value="Enviar correo/s" id="submit"/>
                     </form>
                 </td>
             </tr>
@@ -154,9 +156,62 @@ import { getAllEmails, getInfo } from "./js/requests.js";
                 placeholder: "Buscar por nombre completo...",
                 allowClear: true,
                 data: opciones,
+                width: '850px',
+                dropdownAutoWidth: true,
                 matcher: matchCustom // Usa la función personalizada `matchCustom`
             });
-        }
+
+            $('#lista').on('select2:open', function () {
+                $('#select2-lista-results').on('click', function (event) {
+                event.stopPropagation();
+                var selectedOptionGroup = $(event.target).html().trim();
+
+                var groupChildren = [];
+                var allSelected = true;
+                for (var i = 0; i < opciones.length; i++) {
+                    if (selectedOptionGroup === opciones[i].text) {
+                    for (var j = 0; j < opciones[i].children.length; j++) {
+                        groupChildren.push(opciones[i].children[j].id);
+                    }
+                    break;
+                    }
+                }
+                var selectedOptions = $('#lista').val() || [];
+                groupChildren.forEach(function (childId) {
+                    if (!selectedOptions.includes(childId)) {
+                    allSelected = false;
+                    }
+                });
+
+                if (allSelected) {
+                    selectedOptions = selectedOptions.filter(function (option) {
+                    return !groupChildren.includes(option);
+                    });
+                } else {
+                    groupChildren.forEach(function (childId) {
+                    if (!selectedOptions.includes(childId)) {
+                        selectedOptions.push(childId);
+                    }
+                    });
+                }
+                $('#lista').val(selectedOptions).trigger('change');
+                $('#lista').select2('close');
+                });
+                });
+
+                $('#reset-select').prop('disabled', true);
+                    $('#reset-select').on('click', function () {
+                    $('#lista').val(null).trigger('change');
+                });  
+                
+                $('#lista').on('change', function () {
+                    if ($(this).val() === null || $(this).val().length === 0) {
+                        $('#reset-select').prop('disabled', true);
+                    } else {
+                        $('#reset-select').prop('disabled', false);
+                    }
+                });
+            }
 
         // Función personalizada para coincidencias de búsqueda
         function matchCustom(params, data) {
@@ -165,25 +220,34 @@ import { getAllEmails, getInfo } from "./js/requests.js";
                 return data;
             }
 
-            // Si el nombre completo contiene el término de búsqueda, devuelve los datos
-            if (data.fullname && data.fullname.toLowerCase().indexOf(params.term.toLowerCase()) > -1) {
+            // Convertir el término de búsqueda a minúsculas para una búsqueda insensible a mayúsculas
+            const searchTerm = params.term.toLowerCase();
+
+            // Verificar si el grupo (data.text) coincide
+            if (data.text && data.text.toLowerCase().indexOf(searchTerm) > -1) {
                 return data;
             }
 
-            // Retorna null si no coincide
+            // Verificar si alguno de los hijos coincide (si existen hijos)
+            if (data.children) {
+                const filteredChildren = data.children.filter(child => 
+                    child.fullname && child.fullname.toLowerCase().indexOf(searchTerm) > -1
+                );
+
+                // Si algún hijo coincide, devolver el grupo con los hijos filtrados
+                if (filteredChildren.length > 0) {
+                    return {
+                        ...data,
+                        children: filteredChildren
+                    };
+                }
+            }
+
+            // Si no hay coincidencias, devolver null
             return null;
         }
 
-        $(function(){
-      $.fn.select2.amd.require(["optgroup-data", "optgroup-results"],
-          function (OptgroupData, OptgroupResults) {
-          $('#lista').select2({
-              dataAdapter: OptgroupData,
-              resultsAdapter: OptgroupResults,
-              allowClear: true
-          });
-      });
-  });    
+
 
 
 

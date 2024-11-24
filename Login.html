@@ -11,20 +11,21 @@
             <tr>
                 <td>
                     <center>
-                    <form>
+                    <form name="form" action="HAUDES - copia.html" >
                     <label class="login">
                         <br>
                         <label for="emailAddress" class="login">Tu dirección de correo electrónico</label><br><br>
                         
                         <label class="login">
                             <input
-                              id="emailAddress"
-                              type="email"
+                              id="usuario"
+                              name="user"
+                              type="text"
                               size="64"
                               maxlength="64"
                               required
-                              placeholder="correo@gmail.com"
-                              title="Proporcione una direccion de correo electronico" />
+                              placeholder="username"
+                              title="escriba su usuario" />
                             <br>
                         </label>
                         
@@ -32,11 +33,20 @@
                         <br>
                         
                         <p>Escribe aquí tu contraseña</p>
-                        <input type="password" name="contraseña" title="tu contraseña" method="get" placeholder="****" size="64" maxlength="64" required>
+                        <input
+                            type="password"
+                            id="contraseña"
+                            name="contraseña"
+                            title="tu contraseña"
+                            method="get"
+                            placeholder="****"
+                            size="64"
+                            maxlength="64"
+                            required>
                         <center>________________________________________________________________</center>
                         <br>
-                            <input type="submit" value="siguiente" onclick="location.href='HAUDES.html'" class="envio">
-                        <br>
+                            <input type="submit" value="siguiente" onclick=go() class="envio">
+                            <br>
                         <div>
                         </div>
                     </label>
@@ -53,3 +63,16 @@
     </center>
 </body>
 </html>
+
+<SCRIPT  language=JavaScript> 
+    function go(){
+    
+    if (document.form.contraseña.value=='1234' && document.form.user.value=='haudes'){ 
+            document.form.submit(); 
+        } 
+        else{ 
+             alert("Porfavor ingrese, nombre de usuario y contraseña correctos.");
+             document.form.reset();
+        } 
+    } 
+    </SCRIPT> 

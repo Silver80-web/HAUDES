@@ -81,7 +81,14 @@ form{
     padding: 10px 20px; 
     cursor: pointer; 
     border-radius: 20px;
+    background-image: linear-gradient(to right, lightgray, gray, lightgray);
+    border-color: linear-gradient(to right, darkgray, black, darkgray);
+    border-style: ridge;
+}
+
+.atras:hover{
     background-image: linear-gradient(to right, darkgray, lightgray, darkgray);
+    border-color: black;
 }
 
 .envio:hover{
@@ -90,4 +97,52 @@ form{
 
 .BordeTabla{
     border-image: linear-gradient(to left, black, gray, darkgray, gray, black) 1;
+}
+
+#reset-select{
+    border: none; 
+    color: black; 
+    padding: 5px 8px; 
+    cursor: pointer; 
+    border-radius: 20px;
+    background-image: linear-gradient(to right, lightgray, white, lightgray);
+    border-color: linear-gradient(to right, darkgray, black, darkgray);
+    border-style: ridge;
+}
+
+#reset-select:hover{
+    background-image: linear-gradient(to right, gray, lightgray, gray);
+    border-color: black;
+}
+
+#files{
+    border: none; 
+    color: black; 
+    padding: 5px 8px; 
+    cursor: pointer; 
+    border-radius: 20px;
+    background-image: linear-gradient(to right, lightgray, white, lightgray);
+    border-color: linear-gradient(to right, darkgray, black, darkgray);
+    border-style: ridge;
+}
+
+#files:hover{
+    background-image: linear-gradient(to right, gray, lightgray, gray);
+    border-color: black;
+}
+
+#submit{
+    border: none; 
+    color: black; 
+    padding: 5px 8px; 
+    cursor: pointer; 
+    border-radius: 20px;
+    background-image: linear-gradient(to right, lightgray, white, lightgray);
+    border-color: linear-gradient(to right, darkgray, black, darkgray);
+    border-style: ridge;
+}
+
+#submit:hover{
+    background-image: linear-gradient(to right, gray, lightgray, gray);
+    border-color: black;
 }
